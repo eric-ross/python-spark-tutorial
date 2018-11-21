@@ -1,0 +1,2 @@
+PARK_PRINT_LAUNCH_COMMAND=1 /work/ericr/spark/sparkdev/spark-2.3.1-bin-hadoop2.7/bin/spark-shell --driver-class-path $HOME/.ivy2/jars/org.postgresql_postgresql-42.1.1.jar --conf spark.sql.warehouse.dir=/work/ericr/spark-warehouse --conf spark.local.dir=/work/ericr/spark_warehouse --conf spark.driver.memory=8g --executor-memory 40g --executor-cores 16
+
