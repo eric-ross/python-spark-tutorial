@@ -1,4 +1,12 @@
-from pyspark import SparkContext
+import sys
+sys.path.insert(0, '.')
+from pyspark import SparkContext, SparkConf
+from commons.Utils import Utils
+
+
+def splitComma(line: str):
+    splits = Utils.COMMA_DELIMITER.split(line)
+    return "{}, {}".format(splits[1], splits[6])
 
 if __name__ == "__main__":
 
@@ -15,3 +23,12 @@ if __name__ == "__main__":
     "Tofino", 49.082222
     ...
     '''
+    conf = SparkConf().setAppName("airports").setMaster("local[*]")
+    sc = SparkContext(conf = conf)
+
+    airports = sc.textFile("in/airports.text")
+
+    airportsAbove40 = airports.filter(lambda line : float(Utils.COMMA_DELIMITER.split(line)[6]) > 40.0)
+
+    airportsNameAndLat = airportsAbove40.map(splitComma)
+    airportsNameAndLat.saveAsTextFile("out/above40.txt")
