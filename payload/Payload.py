@@ -1,4 +1,6 @@
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import explode
+from pprint import pprint
 
 if __name__ == "__main__":
 
@@ -9,10 +11,16 @@ if __name__ == "__main__":
     responses = dataFrameReader \
         .option("header", "true") \
         .option("inferSchema", value = True) \
-        .csv("payload/payload500.json")
+        .json("payload/payload500.json")
 
     print("=== Print out schema ===")
     responses.printSchema()
+    pprint(responses.columns)
+    df = responses.select(explode('events'))
+    df.show()
+    #pprint(df.collect())
+    #responses.show()
+
     
    
 
